@@ -7,3 +7,10 @@ devstack_clone_dir: /home/vagrant/devstack
 devstack_install_dir: /opt/stack
 devstack_password: devstack
 devstack_token: ce795aba-6eb3-4f01-b10c-1cb2869ea9be
+
+devstack_network_host: 192.168.27.100
+devstack_network_subnet: 192.168.27.0
+devstack_network_prefix: 24
+devstack_network_gateway: 192.168.27.1
+devstack_network_dhcp_start: 192.168.27.200
+devstack_network_dhcp_end: 192.168.27.210

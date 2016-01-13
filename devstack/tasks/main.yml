@@ -7,21 +7,9 @@
 
 - name: install packages
   become: True
-  yum:
+  apt:
     name=git
     state=latest
-
-- name: disable selinux
-  become: True
-  selinux:
-    state=disabled
-
-- name: disable iptables
-  become: True
-  service:
-    name=iptables
-    state=stopped
-    enabled=no
 
 - name: clone devstack
   git:
@@ -39,6 +27,15 @@
     "{{ devstack_clone_dir }}/stack.sh"
   when: check_install.stat.exists == False
 
+- name: move ip address to br-ex
+  become: True
+  command:
+    "{{ item }}"
+  with_items:
+    - ip address delete {{ devstack_network_host }}/{{ devstack_network_prefix }} dev eth1
+    - ip address add {{ devstack_network_host }}/{{ devstack_network_prefix }} dev br-ex
+  when: check_install.stat.exists == True
+
 - name: rejoin devstack
   command:
     "{{ devstack_clone_dir }}/rejoin-stack.sh"
@@ -52,13 +49,6 @@
     path={{ devstack_install_dir }}/INSTALLED
     state=touch
 
-- name: enable services on boot
-  become: True
-  service:
-    name={{ item }}
-    enabled=yes
-  with_items:
-    - mariadb
-    - rabbitmq-server
-    - httpd
-    - openvswitch
+- name: devstack is running
+  debug:
+    msg="You should now be able to visit OpenStack dashboard at http://{{ devstack_network_host }}/dashboard"

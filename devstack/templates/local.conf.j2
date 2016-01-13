@@ -11,7 +11,7 @@ RABBIT_PASSWORD={{ devstack_password }}
 SERVICE_PASSWORD={{ devstack_password }}
 SERVICE_TOKEN={{ devstack_token }}
 
-HOST_IP=192.168.27.100
+HOST_IP={{ devstack_network_host }}
 
 # Enable neutron
 disable_service n-net
@@ -23,14 +23,12 @@ enable_service q-meta
 
 # Neutron options
 Q_USE_SECGROUP=True
-FLOATING_RANGE="192.168.40.0/24"
-FIXED_RANGE=10.20.30.0/24
-NETWORK_GATEWAY=10.20.30.1
-Q_FLOATING_ALLOCATION_POOL=start=192.168.40.150,end=192.168.40.200
-PUBLIC_NETWORK_GATEWAY="192.168.40.1"
+FLOATING_RANGE="{{ devstack_network_subnet }}/{{ devstack_network_prefix }}"
+FIXED_RANGE="10.0.0.0/24"
+Q_FLOATING_ALLOCATION_POOL=start={{ devstack_network_dhcp_start }},end={{ devstack_network_dhcp_end }}
+PUBLIC_NETWORK_GATEWAY="{{ devstack_network_gateway }}"
 Q_L3_ENABLED=True
-PUBLIC_INTERFACE=eth2
-FLAT_INTERFACE=eth2
+PUBLIC_INTERFACE=eth1
 Q_USE_PROVIDERNET_FOR_PUBLIC=True
 OVS_PHYSICAL_BRIDGE=br-ex
 PUBLIC_BRIDGE=br-ex

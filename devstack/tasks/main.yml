@@ -12,10 +12,12 @@
     state=latest
 
 - name: disable selinux
+  become: True
   selinux:
     state=disabled
 
 - name: disable iptables
+  become: True
   service:
     name=iptables
     state=stopped
@@ -51,6 +53,7 @@
     state=touch
 
 - name: enable services on boot
+  become: True
   service:
     name={{ item }}
     enabled=yes

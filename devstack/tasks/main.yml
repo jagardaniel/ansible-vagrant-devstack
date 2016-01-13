@@ -1,0 +1,61 @@
+---
+
+- name: check if devstack is already installed
+  stat:
+    path={{ devstack_install_dir }}/INSTALLED
+  register: check_install
+
+- name: install packages
+  become: True
+  yum:
+    name=git
+    state=latest
+
+- name: disable selinux
+  selinux:
+    state=disabled
+
+- name: disable iptables
+  service:
+    name=iptables
+    state=stopped
+    enabled=no
+
+- name: clone devstack
+  git:
+    repo={{ devstack_git_url }}
+    dest={{ devstack_clone_dir }}
+    version={{ devstack_git_branch }}
+
+- name: copy devstack configuration
+  template:
+    src=local.conf.j2
+    dest={{ devstack_clone_dir }}/local.conf
+
+- name: install devstack
+  command:
+    "{{ devstack_clone_dir }}/stack.sh"
+  when: check_install.stat.exists == False
+
+- name: rejoin devstack
+  command:
+    "{{ devstack_clone_dir }}/rejoin-stack.sh"
+  async: 0
+  poll: 0
+  ignore_errors: True
+  when: check_install.stat.exists == True
+
+- name: mark devstack as installed
+  file:
+    path={{ devstack_install_dir }}/INSTALLED
+    state=touch
+
+- name: enable services on boot
+  service:
+    name={{ item }}
+    enabled=yes
+  with_items:
+    - mariadb
+    - rabbitmq-server
+    - httpd
+    - openvswitch

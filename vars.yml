@@ -1,0 +1,9 @@
+---
+
+devstack_git_url: https://git.openstack.org/openstack-dev/devstack
+devstack_git_branch: stable/liberty
+devstack_clone_dir: /home/vagrant/devstack
+
+devstack_install_dir: /opt/stack
+devstack_password: devstack
+devstack_token: ce795aba-6eb3-4f01-b10c-1cb2869ea9be

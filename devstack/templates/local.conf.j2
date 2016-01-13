@@ -1,0 +1,37 @@
+[[local|localrc]]
+DEST={{ devstack_install_dir }}
+LOGFILE={{ devstack_install_dir }}/logs/stack.sh.log
+SCREEN_LOGDIR={{ devstack_install_dir }}/logs
+VERBOSE=True
+LOG_COLOR=True
+
+ADMIN_PASSWORD={{ devstack_password }}
+DATABASE_PASSWORD={{ devstack_password }}
+RABBIT_PASSWORD={{ devstack_password }}
+SERVICE_PASSWORD={{ devstack_password }}
+SERVICE_TOKEN={{ devstack_token }}
+
+HOST_IP=192.168.27.100
+
+# Enable neutron
+disable_service n-net
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-l3
+enable_service q-meta
+
+# Neutron options
+Q_USE_SECGROUP=True
+FLOATING_RANGE="192.168.40.0/24"
+FIXED_RANGE=10.20.30.0/24
+NETWORK_GATEWAY=10.20.30.1
+Q_FLOATING_ALLOCATION_POOL=start=192.168.40.150,end=192.168.40.200
+PUBLIC_NETWORK_GATEWAY="192.168.40.1"
+Q_L3_ENABLED=True
+PUBLIC_INTERFACE=eth2
+FLAT_INTERFACE=eth2
+Q_USE_PROVIDERNET_FOR_PUBLIC=True
+OVS_PHYSICAL_BRIDGE=br-ex
+PUBLIC_BRIDGE=br-ex
+OVS_BRIDGE_MAPPINGS=public:br-ex

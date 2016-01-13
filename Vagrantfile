@@ -8,7 +8,6 @@ Vagrant.configure(2) do |config|
   #config.vm.network :private_network, ip: "192.168.0.100", :auto_config => false
   config.vm.network :private_network, ip: "192.168.40.100"
   config.vm.provider :virtualbox do |vb|
-    vb.name = "devstack"
     vb.memory = 4096
     vb.cpus = 2
     vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]

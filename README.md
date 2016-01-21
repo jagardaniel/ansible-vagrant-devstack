@@ -16,3 +16,7 @@ $ vagrant up
 ```
 
 You should be able to visit OpenStacks dashboard (http://192.168.27.100/dashboard) after the installation is finished.
+
+#### Credentials
+* User: admin
+* Pass: devstack

@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
   config.vm.provider :virtualbox do |vb|
     vb.memory = 4096
     vb.cpus = 2
-    vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+    vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
   end
   config.ssh.forward_agent = true
   config.ssh.insert_key = false
